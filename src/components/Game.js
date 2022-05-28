@@ -1,5 +1,7 @@
 import ExampleSceneWithCharacter from '../classes/ExampleSceneWithCharacter';
+
 import { createRef } from 'react';
+import PlayerControl from './PlayerControl';
 const Game = () => {
     let gameContainer = createRef();
     
@@ -13,6 +15,7 @@ const Game = () => {
     return (
         <div>
             <div ref={gameContainer} className="game-container"></div>
+            <PlayerControl />
         </div>
     );
 }

@@ -1,10 +1,10 @@
 import './App.css';
-import Game from './components/Game';
+import ExampleWithCharacter from './components/ExampleWithCharacter';
 
 function App() {
   return (
     <div className="App">
-      <Game />
+      <ExampleWithCharacter />
     </div>
   );
 }

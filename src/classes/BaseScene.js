@@ -28,7 +28,6 @@ export default class BaseScene{
             n:1,
             onUpdate:() => {
                 scope.environment.render();
-                console.log(scope.environment);
 
                 const controllers = scope.getControllers();
                 
