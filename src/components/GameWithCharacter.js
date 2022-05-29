@@ -1,18 +1,18 @@
-import ExampleSceneWithCharacter from '../classes/ExampleSceneWithCharacter';
 import PlayerControl from './PlayerControl';
 import { createRef } from 'react';
-const ExampleWithCharacter = () => {
+import { createScene } from '../engine';
+const GameWithCharacter = () => {
     let gameContainer = createRef();
     const speed = 1;
     const turnSpeed = 1;
     let scene = null;
-    const createScene = async () => {
+    const start = async () => {
         while(!gameContainer.current){
             await new Promise(resolve => setTimeout(resolve), 5);
         }
-        scene = new ExampleSceneWithCharacter(gameContainer.current);
+        scene = createScene(gameContainer.current);
     }
-    createScene();
+    start();
     const downPressed = () => {
         scene.getPlayerControllers().forEach(item => item.move(speed));
         console.log('pressed down');
@@ -70,11 +70,9 @@ const ExampleWithCharacter = () => {
                 onPointerStart={pointerStarted}
                 onPointerChange={pointerChanged}
                 onPointerStop={pointerStopped}
-                turnSpeed={1}
-                moveSpeed={1}
             />
         </div>
     );
 }
 
-export default ExampleWithCharacter;
+export default GameWithCharacter;
