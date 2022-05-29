@@ -1,7 +1,7 @@
 import jt from 'jstrig';
 import * as THREE from 'three';
 import {radiansToDegrees, degreesToRadians} from '../utils/Utilities.js';
-import { TweenLite } from 'gsap';
+import gsap from 'gsap';
 const MovementDirectives = {
     NOT_MOVING: -1,
     FORWARD: 0,
@@ -49,7 +49,7 @@ export default class Navigator{
     }
     thread(scope){
         const p = { n: 0 };
-        TweenLite.to(p, 1, { n: 1, onComplete: () => scope.thread(scope), onUpdate: () => scope.threadUpdate(scope) });
+        gsap.to(p, 1, { n: 1, onComplete: () => scope.thread(scope), onUpdate: () => scope.threadUpdate(scope) });
     }
     threadUpdate(){
         this.mover.rotation.y += (this.rotationProxy - this.mover.rotation.y) / 5;
