@@ -1,6 +1,6 @@
 import {object3DSelector} from '../utils/THREEHelpers.js';
 import {degreesToRadians, radiansToDegrees, nextTick} from '../utils/Utilities.js';
-import {TweenLite} from 'gsap';
+import gsap from 'gsap';
 export default class RigManager{
     constructor ({model, renderer, scene, camera}){
         this.model = model;
@@ -17,7 +17,7 @@ export default class RigManager{
         let complete = false;
         const targetBone = this.getBoneByName(bone);
         const boneProxy = {rotation: radiansToDegrees(targetBone.rotation[`${axis}`])};
-        TweenLite.to(boneProxy, time, {
+        gsap.to(boneProxy, time, {
             rotation: value,
             onUpdate: () => {
                 targetBone.rotation[axis] = degreesToRadians(boneProxy.rotation);

@@ -1,6 +1,6 @@
 import Environment3d from './Environment3d';
 import {POVModes} from './POVManager';
-import {TweenLite} from 'gsap';
+import gsap from 'gsap';
 import {ControllerTypes} from './controllers/BaseController';
 export default class BaseScene{
     constructor(el){
@@ -24,7 +24,7 @@ export default class BaseScene{
     renderLoop(scope){
         scope.environment.render();
         const loopProps = {n:0};
-        TweenLite.to(loopProps, 1, {
+        gsap.to(loopProps, 1, {
             n:1,
             onUpdate:() => {
                 scope.environment.render();
