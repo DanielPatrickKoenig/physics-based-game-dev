@@ -18,6 +18,7 @@ const PlayerControl = ({
 }) => {
     const dragStatus = {
         dragging: false,
+        dragStart: {x:0,y:0},
         lastPosition: null,
     };
     const keys = {
@@ -46,32 +47,32 @@ const PlayerControl = ({
     const down = (e) => {
         dragStatus.dragging = true;
         dragStatus.lastPosition = processPointerEvent(e);
+        dragStatus.dragStart = processPointerEvent(e);
         const mobile = e.touches && e.touches.length;
         onPointerStart({ mobile });
-        console.log(e);
     };
     const move = (e) => {
         if(dragStatus.dragging){
-            console.log(e);
-            const position = processPointerEvent(e);
+            const tapPosition = processPointerEvent(e);
+            const position = { x: dragStatus.dragStart.x-tapPosition.x, y: dragStatus.dragStart.y-tapPosition.y };
             const mobile = e.touches && e.touches.length;
+
             let direction = 0;
             if(Math.abs(position.x - dragStatus.lastPosition.x) > .9){
                 direction = position.x > dragStatus.lastPosition.x ? 1 : -1;
             }
             onPointerChange({position, mobile, direction});
+            
             dragStatus.lastPosition = position;
         }
         
     };
     const up = (e) => {
         dragStatus.dragging = false;
-        console.log(e);
     };
     const upMobile = (e) => {
         dragStatus.dragging = false;
         onPointerStop({ mobile: true });
-        console.log(e);
     };
     return (
         <div

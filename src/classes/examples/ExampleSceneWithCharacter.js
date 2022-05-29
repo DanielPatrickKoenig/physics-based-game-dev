@@ -1,7 +1,9 @@
-import BaseScene from './BaseScene';
-import LightController, {LightTypes} from './controllers/LightController';
-import GroundController from './controllers/GroundController';
-export default class ExampleScene extends BaseScene{
+import BaseScene from '../BaseScene';
+import LightController, {LightTypes} from '../controllers/LightController';
+import GroundController from '../controllers/GroundController';
+import BatterUpController from '../controllers/BatterUpController';
+import Walker1Controller from '../controllers/Walker1Controller';
+export default class ExampleSceneWithCharacter extends BaseScene{
     constructor(el){
         super(el);
     }
@@ -14,6 +16,8 @@ export default class ExampleScene extends BaseScene{
 
         new GroundController({environment: this.environment}, 'https://danielpatrickkoenig.github.io/spirit-of-kovak/dist/dirt_row.png');
 
-        this.environment.camera.position.y = 4;
+        new BatterUpController({environment: this.environment});
+        
+        new Walker1Controller({environment: this.environment});
     }
 }

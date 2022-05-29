@@ -1,5 +1,5 @@
-import ExampleSceneWithCharacter from '../classes/ExampleSceneWithCharacter';
+import GameScene from '../classes/GameScene';
 function createScene(element){
-    return new ExampleSceneWithCharacter(element);
+    return new GameScene(element);
 }
 export {createScene};

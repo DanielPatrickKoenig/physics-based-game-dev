@@ -13,7 +13,7 @@ export default class BaseScene{
         // put custom for scene here
     }
     getPOVMode(){
-        return POVModes.ISOPERSPECTIVE;
+        return POVModes.THIRD_PERSON;
     }
     getWidth(){
         return 1000;

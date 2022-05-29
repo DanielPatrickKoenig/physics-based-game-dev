@@ -1,4 +1,4 @@
-import ExampleScene from '../classes/ExampleScene';
+import ExampleScene from '../classes/examples/ExampleScene';
 import { createRef } from 'react';
 const Game = () => {
     let gameContainer = createRef();
