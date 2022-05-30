@@ -1,6 +1,6 @@
 const UserInterface = ({scene}) => {
     const processAction = (data, type) => {
-        alert(`data: ${data}, type: ${type}`);
+        // handle actions here
     }
     scene.setActionHandler(processAction);
     return (

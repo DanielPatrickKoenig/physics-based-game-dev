@@ -1,5 +1,5 @@
-import ExampleSceneWithCharacterAndAutonavigation from '../classes/examples/ExampleSceneWithCharacterAndAutonavigation';
+import GameScene from '../classes/custom/GameScene';
 function createScene(element){
-    return new ExampleSceneWithCharacterAndAutonavigation(element);
+    return new GameScene(element);
 }
 export {createScene};
