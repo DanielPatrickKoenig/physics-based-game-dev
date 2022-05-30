@@ -6,12 +6,12 @@ const GameWithCharacter = () => {
     let gameContainer = createRef();
     const speed = 1;
     const turnSpeed = 1;
-    let scene = null;
+    const scene = createScene();
     const start = async () => {
         while(!gameContainer.current){
             await new Promise(resolve => setTimeout(resolve), 5);
         }
-        scene = createScene(gameContainer.current);
+        scene.setup(gameContainer.current);
     }
     start();
     const downPressed = () => {

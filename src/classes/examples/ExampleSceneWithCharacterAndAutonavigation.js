@@ -34,7 +34,7 @@ export default class ExampleSceneWithCharacterAndAutonavigation extends BaseScen
     }
 
     onCheckpoint(index){
-        alert(`---------- checkpoint ${index} -------------`);
+        this.emitActionHandler(index, 'checkpoint');
     }
 
     getPOVMode(){

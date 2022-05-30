@@ -4,6 +4,13 @@ import gsap from 'gsap';
 import {ControllerTypes} from './controllers/BaseController';
 export default class BaseScene{
     constructor(el){
+        this.environment = null;
+        this.actionHandler = null;
+        if(el){
+            this.setup(el);
+        }
+    }
+    setup (el) {
         this.environment = new Environment3d(el, {width: this.getWidth(), height: this.getHeight(), gravity: -5, pov: this.getPOVMode()});
         console.log(this.environment);
         this.initialize();
@@ -43,6 +50,14 @@ export default class BaseScene{
     }
     getControllers(){
         return this.environment.controllers.map(item => item.controller);
+    }
+    setActionHandler(handler){
+        this.actionHandler = handler;
+    }
+    emitActionHandler(data, type){
+        if(this.actionHandler){
+            this.actionHandler(data, type);
+        }
     }
     
 }
