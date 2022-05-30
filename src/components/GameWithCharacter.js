@@ -1,4 +1,5 @@
 import PlayerControl from './PlayerControl';
+import UserInterface from './ui/UserInterface';
 import { createRef } from 'react';
 import { createScene } from '../engine';
 const GameWithCharacter = () => {
@@ -71,7 +72,9 @@ const GameWithCharacter = () => {
                 onPointerStart={pointerStarted}
                 onPointerChange={pointerChanged}
                 onPointerStop={pointerStopped}
-            />
+            >
+                <UserInterface scene={scene} />
+            </PlayerControl>
         </div>
     );
 }

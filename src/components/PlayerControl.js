@@ -2,6 +2,7 @@
 import './PlayerControl.css';
 import {processPointerEvent} from '../utils/Utilities';
 const PlayerControl = ({
+        children,
         onPressUp, 
         onPressDown, 
         onPressLeft, 
@@ -75,18 +76,23 @@ const PlayerControl = ({
         onPointerStop({ mobile: true });
     };
     return (
-        <div
-            className="player-control"
-            onKeyDown={keyDown}
-            onKeyUp={keyUp}
-            onMouseDown={down}
-            onMouseMove={move}
-            onMouseUp={up}
-            onTouchStart={down}
-            onTouchMove={move}
-            onTouchEnd={upMobile}
-            tabIndex="-1"
-        />
+        <div className="player-control">
+            <div className="user-interface">
+                {children}
+            </div>
+            <div
+                className="control-overlay"
+                onKeyDown={keyDown}
+                onKeyUp={keyUp}
+                onMouseDown={down}
+                onMouseMove={move}
+                onMouseUp={up}
+                onTouchStart={down}
+                onTouchMove={move}
+                onTouchEnd={upMobile}
+                tabIndex="-1"
+            />
+        </div>
     );
 };
 export default PlayerControl;

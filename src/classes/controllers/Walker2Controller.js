@@ -1,5 +1,5 @@
 import CharacterController from './CharacterController';
-// import { POVModes } from '../POVManager'; 
+import { POVModes } from '../POVManager'; 
 export default class Walker2Controller extends CharacterController{
     constructor(data){
         super(data, 'https://danielpatrickkoenig.github.io/three-game-exparament/public/gifty.glb', {x: 4, y: 2, z: 0});
@@ -20,26 +20,26 @@ export default class Walker2Controller extends CharacterController{
         this.rigManager.cycle('rightArm', 'y', [{value:-20, time:.5}, {value:20, time:.5}], ['moving']);
         this.rigManager.cycle('rightArm', 'y', [{value:-90, time:.5}], ['carying', 'holding']);
     }
-    // update(){
-    //     super.update();
-    //     if(this.navigator){
-    //         switch(this.environment.povMode){
-    //             case POVModes.THIRD_PERSON:
-    //             case POVModes.FIRST_PERSON:
-    //             case POVModes.ISOMETRIC:
-    //             case POVModes.ISOPERSPECTIVE:
-    //             {
-    //                 this.move(-1);
-    //                 break;
-    //             }
-    //             case POVModes.SIDE_SCROLL_FLAT:
-    //             case POVModes.SIDE_SCROLL_PERSPECTIVE:
-    //             {
-    //                 this.directionChange(1);
-    //                 break;
-    //             }
-    //         }
-    //     }
+    update(){
+        super.update();
+        if(this.navigator){
+            switch(this.environment.povMode){
+                case POVModes.THIRD_PERSON:
+                case POVModes.FIRST_PERSON:
+                case POVModes.ISOMETRIC:
+                case POVModes.ISOPERSPECTIVE:
+                {
+                    this.move(-1);
+                    break;
+                }
+                case POVModes.SIDE_SCROLL_FLAT:
+                case POVModes.SIDE_SCROLL_PERSPECTIVE:
+                {
+                    this.directionChange(1);
+                    break;
+                }
+            }
+        }
         
-    // }
+    }
 }
