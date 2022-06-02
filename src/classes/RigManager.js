@@ -48,4 +48,13 @@ export default class RigManager{
         }
         this.cycle(bone, axis, valuesAndTimes, states);
     }
+    async sequence(bone, axis, valuesAndTimes){
+        for(let i = 0; i < valuesAndTimes.length; i++){
+            await this.rotateTo(bone, axis, valuesAndTimes[i], () => {
+                if(this.renderer){
+                    this.renderer.render(this.scene, this.camera);
+                }
+            });
+        }
+    }
 }
