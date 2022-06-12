@@ -31,7 +31,8 @@ export default class BaseScene{
     renderLoop(scope){
         scope.environment.render();
         const loopProps = {n:0};
-        gsap.to(loopProps, 1, {
+        gsap.to(loopProps, {
+            duration: 1,
             n:1,
             onUpdate:() => {
                 scope.environment.render();

@@ -17,7 +17,8 @@ export default class RigManager{
         let complete = false;
         const targetBone = this.getBoneByName(bone);
         const boneProxy = {rotation: radiansToDegrees(targetBone.rotation[`${axis}`])};
-        gsap.to(boneProxy, time, {
+        gsap.to(boneProxy, {
+            duration: time,
             rotation: value,
             onUpdate: () => {
                 targetBone.rotation[axis] = degreesToRadians(boneProxy.rotation);

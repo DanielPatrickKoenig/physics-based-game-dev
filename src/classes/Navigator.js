@@ -49,7 +49,7 @@ export default class Navigator{
     }
     thread(scope){
         const p = { n: 0 };
-        gsap.to(p, 1, { n: 1, onComplete: () => scope.thread(scope), onUpdate: () => scope.threadUpdate(scope) });
+        gsap.to(p, { duration: 1, n: 1, onComplete: () => scope.thread(scope), onUpdate: () => scope.threadUpdate(scope) });
     }
     threadUpdate(){
         this.mover.rotation.y += (this.rotationProxy - this.mover.rotation.y) / 5;
