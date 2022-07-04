@@ -46,31 +46,37 @@ function object3DSelector(scope, filters) {
         return getDescendantTree(scope).filter(item => Object.keys(filters).filter(_item => item[_item] === filters[_item]).length === Object.keys(filters).length);
     }
 }
-function createPrimitive({ type, size, position, orientation, mass, physics, material, rotation, scene }){
+function createPrimitive({ type, size, position, orientation, mass, physics, material, rotation, scene, customMesh }){
     let geometry;
+    let mesh;
     const shapeSize = size ? size : defaultDimensionValues().size;
     const shapePosition = position ? position : defaultDimensionValues().position;
     const shapeOrientation = orientation ? orientation : defaultDimensionValues().orientation;
     const shapeRotation = rotation ? rotation : defaultDimensionValues().rotation;
-    switch(type){
-        case ShapeTypes.PLANE:{
-            geometry = new THREE.PlaneGeometry( shapeSize.x, shapeSize.y );
-            break;
-        }
-        case ShapeTypes.BOX:{
-            geometry = new THREE.BoxGeometry( size.x, size.y, size.z );
-            break;
-        }
-        case ShapeTypes.SPHERE:{
-            geometry = new THREE.SphereGeometry( size.r );
-            break;
-        }
-        case ShapeTypes.CYLINDER:{
-            geometry = new THREE.CylinderGeometry( size.r, size.r, size.y, 32 );
-            break;
-        }
+    if(customMesh){
+        mesh = customMesh;
     }
-    const mesh = new THREE.Mesh( geometry, material );
+    else{
+        switch(type){
+            case ShapeTypes.PLANE:{
+                geometry = new THREE.PlaneGeometry( shapeSize.x, shapeSize.y );
+                break;
+            }
+            case ShapeTypes.BOX:{
+                geometry = new THREE.BoxGeometry( size.x, size.y, size.z );
+                break;
+            }
+            case ShapeTypes.SPHERE:{
+                geometry = new THREE.SphereGeometry( size.r );
+                break;
+            }
+            case ShapeTypes.CYLINDER:{
+                geometry = new THREE.CylinderGeometry( size.r, size.r, size.y, 32 );
+                break;
+            }
+        }
+        mesh = new THREE.Mesh( geometry, material );
+    }
     mesh.position.x = shapePosition.x;
     mesh.position.y = shapePosition.y;
     mesh.position.z = shapePosition.z;
