@@ -101,6 +101,16 @@ class Physics{
         // console.log(shapeIDs);
         return this.world.contacts.filter(item => [item.bi.shapes[0].id, item.bj.shapes[0].id].sort().join(',') === shapeIDs.sort().join(',')).length;
     }
+    addForce(body, {x, y, z}){
+        const vector = {
+            _x: x ? x : 0,
+            _y: y ? y : 0,
+            _z: z ? z : 0
+        }
+        const worldPoint = new CANNON.Vec3(body.position.x,body.position.y,body.position.z);
+        const force = new CANNON.Vec3(vector._x, vector._y, vector._z);
+        body.applyForce(force,worldPoint);
+    }
 }
 
 export default Physics;
