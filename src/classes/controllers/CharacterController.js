@@ -1,7 +1,6 @@
 import {ControllerTypes} from './BaseController';
 import CustomMeshController from './CustomMeshController';
 import RigManager from '../RigManager';
-import ModelLoader from '../ModelLoader';
 import Navigator from '../Navigator';
 import { POVModes } from '../POVManager';
 
@@ -12,7 +11,7 @@ export default class CharacterController extends CustomMeshController{
         this.rigManager = null;
     }
     async loadModel (){
-        const model = await new ModelLoader(this.glbFile).load();
+        const model = await this.environment.loadModel(this.glbFile);
         this.scene.add(model);
         model.rotateY(-180 * (Math.PI/180));
         this.modelLoaded(model);

@@ -1,18 +1,27 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import {nextTick} from '../utils/Utilities.js';
+import {nextTick, generateID} from '../utils/Utilities.js';
+const LoadStates = {
+    LOADING: 'loading',
+    SUCCESS: 'success',
+    FAILED: 'failed'
+};
 export default class ModelLoader{
-    constructor(file){
-        this.file = file;
+    constructor(){
+        this.queue = [];
         
     }
-    async load(){
+    async load(file){
+        const id = `model-${generateID()}`;
+        this.queue.push({ file, id, status: LoadStates.LOADING });
         const loader = new GLTFLoader();
         let model = null;
-        loader.load( this.file, ( gltf ) => {
+        loader.load( file, ( gltf ) => {
             model = gltf.scene;
+            this.queue.find(item => item.id === id).status = LoadStates.SUCCESS;
         }, undefined, ( error ) => {
             model = error;
             console.error( error );
+            this.queue.find(item => item.id === id).status = LoadStates.FAILED;
 
         } );
         while (model === null){
@@ -22,3 +31,5 @@ export default class ModelLoader{
         return model;
     }
 }
+
+export { LoadStates };

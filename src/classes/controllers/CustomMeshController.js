@@ -1,15 +1,15 @@
 import {ControllerTypes} from './BaseController';
 import LocatableController from './LocatableController';
-import ModelLoader from '../ModelLoader';
 export default class CustomMeshController extends LocatableController{
     constructor(data, glbFile, startPosition){
         super(data, startPosition);
         this.glbFile = glbFile;
+        this.queue = [];
         this.onLoaded = null;
         this.loadModel();
     }
-    async loadModel (){ 
-        const model = await new ModelLoader(this.glbFile).load();
+    async loadModel (){
+        const model = await this.environment.loadModel(this.glbFile);
         this.scene.add(model);
         this.modelLoaded(model);
         if(this.onLoaded){

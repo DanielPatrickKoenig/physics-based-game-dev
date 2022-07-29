@@ -12,6 +12,10 @@ export default class BaseScene{
     }
     setup (el) {
         this.environment = new Environment3d(el, {width: this.getWidth(), height: this.getHeight(), gravity: -5, pov: this.getPOVMode()});
+        this.environment.onLoadingComplete = async () => {
+            await new Promise(resolve => setTimeout(resolve, 50));
+            this.loadComplete();
+        };
         console.log(this.environment);
         this.initialize();
         this.renderLoop(this);
@@ -59,6 +63,9 @@ export default class BaseScene{
         if(this.actionHandler){
             this.actionHandler(data, type);
         }
+    }
+    loadComplete(){
+
     }
     
 }

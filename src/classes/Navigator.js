@@ -32,15 +32,18 @@ export default class Navigator{
             rotation: MovementDirectives.NOT_ROTATING
         };
         if(this.physics){
-            const material = new THREE.MeshBasicMaterial( {color: 0x00ff00, transparent: true} );
-            material.opacity = 0;
+            const material = new THREE.MeshBasicMaterial( {color: 0x00ff00, transparent: true, opacity: 0} );
             const { mesh, body } = this.env.createSphere({size: {r: 1}, position, mass: 1, material });
+
             this.physicsMesh = mesh;
             this.physicsBody = body;
             this.currentPosition = {x: this.physicsBody.position.x, y: this.physicsBody.position.y + this.getYShift(), z: this.physicsBody.position.z};
             this.physicsBody.addEventListener("collide",function(e){
                 console.log(e);
             });
+            mesh.scale.x = 0;
+            mesh.scale.y = 0;
+            mesh.scale.z = 0;
         }
         this.thread(this);
     }
