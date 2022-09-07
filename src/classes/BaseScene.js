@@ -16,7 +16,7 @@ export default class BaseScene{
             await new Promise(resolve => setTimeout(resolve, 50));
             this.loadComplete();
         };
-        console.log(this.environment);
+        // console.log(this.environment);
         this.initialize();
         this.renderLoop(this);
     }

@@ -6,6 +6,7 @@ export default class CustomMeshController extends LocatableController{
         this.glbFile = glbFile;
         this.queue = [];
         this.onLoaded = null;
+        this.model = null;
         this.loadModel();
     }
     async loadModel (){
@@ -17,7 +18,8 @@ export default class CustomMeshController extends LocatableController{
         }
     }
     modelLoaded(model){
-        console.log(model);
+        this.model = model;
+        // console.log(model);
     }
     getControllerType(){
         return ControllerTypes.CUSTOM_MESH;

@@ -116,4 +116,10 @@ function basicImageMaterial(texture){
     const tex = new THREE.TextureLoader().load(texture);
     return new THREE.MeshBasicMaterial( { map: tex, transparent: true } );
 }
-export {setRotation, RotationAxis, getRaycastIntersections, object3DSelector, createPrimitive, getCollisions, getDistance, basicImageMaterial}
+function basicColorMaterial(color){
+    return new THREE.MeshLambertMaterial({ color: Number(`0x${color}`) });
+}
+function createEmptyContainer(){
+    return new THREE.Object3D();
+}
+export {setRotation, RotationAxis, getRaycastIntersections, object3DSelector, createPrimitive, getCollisions, getDistance, basicImageMaterial, basicColorMaterial, createEmptyContainer}

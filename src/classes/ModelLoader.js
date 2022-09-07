@@ -20,7 +20,7 @@ export default class ModelLoader{
             this.queue.find(item => item.id === id).status = LoadStates.SUCCESS;
         }, undefined, ( error ) => {
             model = error;
-            console.error( error );
+            // console.error( error );
             this.queue.find(item => item.id === id).status = LoadStates.FAILED;
 
         } );

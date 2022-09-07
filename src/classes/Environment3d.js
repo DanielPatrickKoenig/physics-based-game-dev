@@ -6,11 +6,11 @@ import Physics from '../classes/Physics.js';
 import { POVModes } from './POVManager.js';
 import ModelLoader, { LoadStates } from '../classes/ModelLoader';
 export default class Environment3d{
-    constructor(element, { width, height, background, gravity, pov }){
+    constructor(element, { width, height, gravity, pov }){
         const _width = width ? width : 1000;
         const _height = height ? height :  700;
         this.element = element;
-        console.log(pov);
+        // console.log(pov);
         this.povMode = pov ? pov : POVModes.SIDE_SCROLL_FLAT;
         this.scene = new THREE.Scene();
         this.cameraContainer = new Object3D();
