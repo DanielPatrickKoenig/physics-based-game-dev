@@ -24,6 +24,7 @@ class Physics{
         return Object.keys(values).includes('r')
             ? new CANNON.Vec3(
                 values.r ? values.r * sizeScale : defaultDimensionValues()[prop].r * sizeScale,
+                values.x ? values.x * sizeScale : defaultDimensionValues()[prop].x * sizeScale,
                 values.y ? values.y * sizeScale : defaultDimensionValues()[prop].y * sizeScale,
                 values.z ? values.z * sizeScale : defaultDimensionValues()[prop].z * sizeScale
             )
@@ -36,7 +37,7 @@ class Physics{
     }
     addShape({ type, mass, size, position, orientation, mesh }){
         let shape;
-        const sizeVector = this.processVec3({ values: size, property: 'size' });
+        const sizeVector = type === ShapeTypes.BOX ? new CANNON.Vec3(size.x / 2, size.y / 2, size.z / 2) : this.processVec3({ values: size, property: 'size' });
         switch(type){
             case ShapeTypes.PLANE:{
                 shape = new CANNON.Plane(sizeVector);
@@ -120,6 +121,27 @@ class Physics{
         const worldPoint = new CANNON.Vec3(body.position.x,body.position.y,body.position.z);
         const force = new CANNON.Vec3(vector._x, vector._y, vector._z);
         body.applyImpulse(force,worldPoint);
+    }
+
+    createHinge(a, b){
+        // const s = 3;
+        // const d = 0.1 * s;
+        // const hinge = new CANNON.HingeConstraint(a, b, {
+        //     pivotA: new CANNON.Vec3(0, 0, -s * 0.5 - d),
+        //     axisA: new CANNON.Vec3(1, 0, 0),
+        //     pivotB: new CANNON.Vec3(0, 0, s * 0.5 + d),
+        //     axisB: new CANNON.Vec3(1, 0, 0),
+        // });
+        const localPivotA = new CANNON.Vec3(1, 0, 0);
+        const localPivotB = new CANNON.Vec3(-1, 0, 0);
+        const hinge = new CANNON.PointToPointConstraint(a, localPivotA, b, localPivotB);
+        this.world.addConstraint(hinge);
+
+    }
+
+    lock (a, b) {
+        const constraint = new CANNON.LockConstraint(a, b);
+        this.world.addConstraint(constraint);
     }
 }
 

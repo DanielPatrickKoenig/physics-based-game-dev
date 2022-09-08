@@ -94,19 +94,19 @@ export default class Environment3d{
         return model;
     }
     createPlane({size, orientation, position, mass, material, rotation, customMesh}){
-        const physics = mass !== undefined ? this.physics : null;
+        const physics = mass !== null ? this.physics : null;
         return createPrimitive({ type: ShapeTypes.PLANE, size, position, orientation, mass, physics, material, rotation, scene: this.scene, customMesh });
     }
     createBox({size, orientation, position, mass, material, rotation, customMesh}){
-        const physics = mass !== undefined ? this.physics : null;
+        const physics = mass !== null ? this.physics : null;
         return createPrimitive({ type: ShapeTypes.BOX, size, position, orientation, mass, physics, material, rotation, scene: this.scene, customMesh });
     }
     createSphere({size, orientation, position, mass, material, rotation, customMesh}){
-        const physics = mass !== undefined ? this.physics : null;
+        const physics = mass !== null ? this.physics : null;
         return createPrimitive({ type: ShapeTypes.SPHERE, size, position, orientation, mass, physics, material, rotation, scene: this.scene, customMesh });
     }
     createCylinder({size, orientation, position, mass, material, rotation, customMesh}){
-        const physics = mass !== undefined ? this.physics : null;
+        const physics = mass !== null ? this.physics : null;
         return createPrimitive({ type: ShapeTypes.CYLINDER, size, position, orientation, mass, physics, material, rotation, scene: this.scene, customMesh });
     }
 }
