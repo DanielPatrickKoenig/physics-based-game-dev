@@ -1,5 +1,5 @@
-import BowlingScene from '../classes/custom/BowlingScene';
+import PinataScene from '../classes/custom/PinataScene';
 function createScene(element){
-    return new BowlingScene(element);
+    return new PinataScene(element);
 }
 export {createScene};

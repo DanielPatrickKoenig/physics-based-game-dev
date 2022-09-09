@@ -3,7 +3,7 @@ import BaseScene from '../BaseScene';
 import LightController, { LightTypes } from '../../classes/controllers/LightController';
 import GroundController from '../../classes/controllers/GroundController';
 import BowlingPinController from './BowlingPinController';
-export default class GameScene extends BaseScene{
+export default class BowlingScene extends BaseScene{
     constructor(el){
         super(el);
     }
@@ -31,13 +31,6 @@ export default class GameScene extends BaseScene{
         new BowlingPinController({ environment: this.environment }, { x: -3, y: .25, z: -3 });
 
         const greenMat = basicColorMaterial('00cc00');
-
-        // const box = this.environment.createBox({ size: { x: .5, y: .25, z: .5 }, position: { x: 0, y: .25, z: 0 }, material: greenMat, mass: 1 });
-        // const ball = this.environment.createSphere({ size: { r: .5 }, position: { x: 0, y: 1.75, z: 0 }, material: greenMat, mass: 1 });
-        // const top = this.environment.createSphere({ size: { r: .25 }, position: { x: 0, y: 3.75, z: 0 }, material: greenMat, mass: 1 });
-
-        // this.environment.physics.lock(box.body, ball.body);
-        // this.environment.physics.lock(ball.body, top.body);
 
         const bBall = this.environment.createSphere({ size: { r: .75 }, position: { x: 0, y: 1.75, z: 8 }, material: greenMat, mass: 15});
 

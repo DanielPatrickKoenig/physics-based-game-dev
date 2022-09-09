@@ -123,7 +123,7 @@ class Physics{
         body.applyImpulse(force,worldPoint);
     }
 
-    createHinge(a, b){
+    createHinge(a, b, range = 1){
         // const s = 3;
         // const d = 0.1 * s;
         // const hinge = new CANNON.HingeConstraint(a, b, {
@@ -132,8 +132,8 @@ class Physics{
         //     pivotB: new CANNON.Vec3(0, 0, s * 0.5 + d),
         //     axisB: new CANNON.Vec3(1, 0, 0),
         // });
-        const localPivotA = new CANNON.Vec3(1, 0, 0);
-        const localPivotB = new CANNON.Vec3(-1, 0, 0);
+        const localPivotA = new CANNON.Vec3(range , 0, range);
+        const localPivotB = new CANNON.Vec3(range * -1, 0, range * -1);
         const hinge = new CANNON.PointToPointConstraint(a, localPivotA, b, localPivotB);
         this.world.addConstraint(hinge);
 
