@@ -12,14 +12,20 @@ export default class PinataController extends CustomMeshController{
         this.links = [];
         this.pipes = [];
         this.pinata = null;
+        this.ropeThickness = .1;
+        this.jointCount = 6;
+        this.linkSize = .3; // links connect the joints and are invisible. higher size means more stability
     }
     modelLoaded(model){
         model.scale.z = -1;
         model.scale.x = -1;
-        const redMat = basicColorMaterial('cc0000');
+        const greenMat = basicColorMaterial('00cc00');
+        greenMat.transparent = true;
+        greenMat.opacity = 0;
+        const blueMat = basicColorMaterial('0000cc');
         const chainProps = { start: {x: 0, y: 16, z: 0}, jump: 1.125 };
-        const chainTop = this.environment.createSphere({size: {r: .2}, position: chainProps.start, material: redMat, mass: 0 });
-        this.links = [...new Array(6).keys()].map(item => this.environment.createSphere({size: { r: .2 }, position: { ...chainProps.start, y: chainProps.start.y - (chainProps.jump * (item + 1)) }, material: redMat, mass: 1 }));
+        const chainTop = this.environment.createSphere({size: {r: this.linkSize}, position: chainProps.start, material: greenMat, mass: 0 });
+        this.links = [...new Array(this.jointCount).keys()].map(item => this.environment.createSphere({size: { r: this.linkSize }, position: { ...chainProps.start, y: chainProps.start.y - (chainProps.jump * (item + 1)) }, material: greenMat, mass: 1 }));
         // this.links = [...new Array(6).keys()].map(item => this.environment.createSphere({size: { r: .2 }, position: basePositions.links[item], material: redMat, mass: 1 }));
         this.links.forEach((item, index) => {
             const lastObj = index === 0 ? chainTop.body : this.links[index - 1].body;
@@ -33,22 +39,24 @@ export default class PinataController extends CustomMeshController{
 
         this.pipes = this.links.map((item, index) => {
             const container = new THREE.Object3D();
+            const proxy = new THREE.Object3D();
             const innerContainer = new THREE.Object3D();
-            const blueMat = basicColorMaterial('0000cc');
-            const pipe = this.environment.createCylinder({ size: {r: .1, y: 1.5}, position: { x: 0, y: 0, z: 0 }, material: blueMat })
-            
+            const pipe = this.environment.createCylinder({ size: {r: this.ropeThickness, y: index === this.links.length - 1 ? 3 : 1.5}, position: { x: 0, y: 0, z: 0 }, material: blueMat })
+            const joint = this.environment.createSphere({size: { r: this.ropeThickness }, position: { ...chainProps.start, y: chainProps.start.y - (chainProps.jump * (item + 1)) }, material: blueMat });
             this.links[index].mesh.add(container);
+            this.links[index].mesh.add(proxy);
             container.add(innerContainer);
             innerContainer.add(pipe.mesh);
+            container.add(joint.mesh);
             innerContainer.rotation.x = degreesToRadians(90);
-            innerContainer.position.z = .75 
+            innerContainer.position.z =  index === this.links.length - 1 ? -.75 : .75; 
 
             // container.rotation.x = degreesToRadians(90);
             // container.rotation.z = degreesToRadians(90);
             // container.rotation.y = degreesToRadians(90);
             const start = item.mesh;
             const end = index === this.links.length - 1 ? this.pinata.group : this.links[index + 1].mesh;
-            return {start, end, container};
+            return {start, end, container, proxy};
 
         });
         
@@ -60,9 +68,15 @@ export default class PinataController extends CustomMeshController{
             this.onPinataMoved({ position: this.pinata.mesh.position, rotation: this.pinata.mesh.rotation });
         }
         this.pipes.forEach((item, index) => {
-            if(item.end && item.end.position && index < this.pipes.length - 1){
-                item.container.lookAt(item.end.position);
+            if(item.end && item.end.position){
+                item.proxy.lookAt(item.end.position);
             }
+            else{
+                item.proxy.lookAt(this.pipes[index - 1].start.position);
+            }
+            item.container.rotation.x = item.proxy.rotation.x;
+            item.container.rotation.y = item.proxy.rotation.y;
+            item.container.rotation.z = item.proxy.rotation.z;
             
         });
         // for(let i = 0; i < this.links.length; i++){
