@@ -28,6 +28,8 @@ export default class PinataScene extends BaseScene{
         this.environment.physics.addForce(hitter.body, {x: 0, y: 0, z: 12000});
         hitter.mesh.visible = false;
 
+        this.pinataController.breakOffPiece();
+
         await new Promise(resolve => setTimeout(resolve, 1000));
         this.environment.physics.world.remove(hitter.body);
         this.environment.scene.remove(hitter.mesh);

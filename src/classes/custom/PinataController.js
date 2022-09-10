@@ -6,15 +6,16 @@ export default class PinataController extends CustomMeshController{
     constructor(data){
         super(data, 'https://danielpatrickkoenig.github.io/shared-app-resources/pinata3.glb');
 
-        // const basePositions = this.getBasePositions();
-
         this.onPinataMoved = null;
         this.links = [];
         this.pipes = [];
+        this.hits = 0;
+        this.maxHits = 3;
         this.pinata = null;
         this.ropeThickness = .1;
         this.jointCount = 6;
         this.linkSize = .3; // links connect the joints and are invisible. higher size means more stability
+        this.remainingChunkIndexes = [2, 9, 14, 17];
     }
     modelLoaded(model){
         model.scale.z = -1;
@@ -34,7 +35,6 @@ export default class PinataController extends CustomMeshController{
         });
 
         this.pinata = this.environment.createBox({size: {x: 2, y: 1, z: 3}, position: { ...chainProps.start, y: chainProps.start.y - (chainProps.jump * (this.links.length)) - (chainProps.jump * 2) }, customMesh: model, mass: 20 });
-        // this.pinata = this.environment.createBox({size: {x: 2, y: 1, z: 3}, position: basePositions.pinata, material: redMat, mass: 20 });
         this.environment.physics.createHinge(this.links[this.links.length - 1].body, this.pinata.body, 1);
 
         this.pipes = this.links.map((item, index) => {
@@ -50,10 +50,6 @@ export default class PinataController extends CustomMeshController{
             container.add(joint.mesh);
             innerContainer.rotation.x = degreesToRadians(90);
             innerContainer.position.z =  index === this.links.length - 1 ? -.75 : .75; 
-
-            // container.rotation.x = degreesToRadians(90);
-            // container.rotation.z = degreesToRadians(90);
-            // container.rotation.y = degreesToRadians(90);
             const start = item.mesh;
             const end = index === this.links.length - 1 ? this.pinata.group : this.links[index + 1].mesh;
             return {start, end, container, proxy};
@@ -63,7 +59,6 @@ export default class PinataController extends CustomMeshController{
         
     }
     update(){
-        // console.log({ p: this.pinata, l: this.links });
         if(this.pinata && this.onPinataMoved){
             this.onPinataMoved({ position: this.pinata.mesh.position, rotation: this.pinata.mesh.rotation });
         }
@@ -77,19 +72,9 @@ export default class PinataController extends CustomMeshController{
             item.container.rotation.x = item.proxy.rotation.x;
             item.container.rotation.y = item.proxy.rotation.y;
             item.container.rotation.z = item.proxy.rotation.z;
+
             
         });
-        // for(let i = 0; i < this.links.length; i++){
-        //     this.pipes[i].pipe.position.x = this.links[i].mesh.position.x;
-        //     this.pipes[i].pipe.position.y = this.links[i].mesh.position.y;
-        //     this.pipes[i].pipe.position.z = this.links[i].mesh.position.z;
-        // }
-        // if(this.links.length && this.pipes.length){
-        //     this.pipes.forEach((item, index) => {
-        //         console.log(item);
-                
-        //     });
-        // }
         
     }
 
@@ -98,5 +83,16 @@ export default class PinataController extends CustomMeshController{
             links: JSON.parse('[{"x":0.25000260531054147,"y":15.279178231653827,"z":0.2496779888851987},{"x":0.2500080232775214,"y":13.851506029054319,"z":0.24902614736459736},{"x":0.2500140677826064,"y":12.424187436325294,"z":0.2483506005567428},{"x":0.25002093127805625,"y":10.99730527686605,"z":0.24765474425916392},{"x":0.25002857564798175,"y":9.570933042333886,"z":0.24694369934367674},{"x":0.2500365156923629,"y":8.145140711104311,"z":0.246222896756961}]'),
             pinata: JSON.parse('{"x":0.24926154920356008,"y":5.316430174930662,"z":0.2621179257249421}')
         }
+    }
+
+    breakOffPiece(){
+        this.hits++;
+        if(this.hits === this.maxHits){
+            this.pinata.mesh.children.filter((item, index) => !this.remainingChunkIndexes.includes(index)).map((item, index) => ({index, item})).reverse().forEach(item => {
+                const wp = item.item.getWorldPosition(item.item.position);
+                this.environment.createSphere({size: {r: 2}, position: {x:  wp.x, y: wp.y, z: wp.z}, mass: 1, customMesh: item.item})
+            });
+        }
+        
     }
 }
