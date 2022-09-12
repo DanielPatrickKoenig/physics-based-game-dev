@@ -2,7 +2,7 @@ import { basicColorMaterial } from '../../utils/THREEHelpers';
 import BaseController from '../controllers/BaseController';
 import CANNON from 'cannon';
 
-export default class BowlingPinController extends BaseController{
+export default class CarController extends BaseController{
     constructor(data){
         super(data);
 
