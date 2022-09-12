@@ -1,0 +1,24 @@
+.overlayer{
+    position: absolute;
+    top: 0;
+    width: 1000px;
+    height: 700px;
+}
+.overlayer > div{
+    position: absolute; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.overlayer > div > div{
+    z-index: 200;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    border: 1px solid #cccccc; 
+    display: flex; 
+    justify-content: center;
+    align-items: flex-end;
+}

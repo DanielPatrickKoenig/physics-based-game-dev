@@ -2,11 +2,12 @@ import BaseScene from '../BaseScene';
 import LightController, { LightTypes } from '../../classes/controllers/LightController';
 import PinataController from './PinataController';
 import { degreesToRadians } from '../../utils/Utilities';
-import { basicColorMaterial } from '../../utils/THREEHelpers';
+import { basicColorMaterial, getCanvasPosition } from '../../utils/THREEHelpers';
 export default class PinataScene extends BaseScene{
     constructor(el){
         super(el);
         this.pinataController = null;
+        this.hitForce = 9000;
     }
     initialize(){
         const lc = new LightController({ environment: this.environment });
@@ -19,13 +20,14 @@ export default class PinataScene extends BaseScene{
         this.pinataController = new PinataController({ environment: this.environment });
 
         this.pinataController.onPinataMoved = (data) => {
-            this.emitActionHandler(data, 'automatic');
+            const translatedPosition = getCanvasPosition(data.mesh, this.environment)
+            this.emitActionHandler(translatedPosition, 'automatic');
         };
 
     }
     async hitPinata(){
         const hitter = this.environment.createSphere({size: {r: .25}, position: {x: this.pinataController.pinata.mesh.position.x, y: this.pinataController.pinata.mesh.position.y, z: this.pinataController.pinata.mesh.position.z - 3},mass: 5, material: basicColorMaterial('cc00cc')});
-        this.environment.physics.addForce(hitter.body, {x: 0, y: 0, z: 12000});
+        this.environment.physics.addForce(hitter.body, {x: 0, y: 0, z: this.hitForce});
         hitter.mesh.visible = false;
 
         this.pinataController.breakOffPiece();

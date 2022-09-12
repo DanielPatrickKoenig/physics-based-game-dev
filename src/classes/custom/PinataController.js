@@ -10,7 +10,7 @@ export default class PinataController extends CustomMeshController{
         this.links = [];
         this.pipes = [];
         this.hits = 0;
-        this.maxHits = 3;
+        this.maxHits = 5;
         this.pinata = null;
         this.ropeThickness = .1;
         this.jointCount = 6;
@@ -30,12 +30,12 @@ export default class PinataController extends CustomMeshController{
         // this.links = [...new Array(6).keys()].map(item => this.environment.createSphere({size: { r: .2 }, position: basePositions.links[item], material: redMat, mass: 1 }));
         this.links.forEach((item, index) => {
             const lastObj = index === 0 ? chainTop.body : this.links[index - 1].body;
-            this.environment.physics.createHinge(lastObj, item.body, .5);
+            this.environment.physics.constrain(lastObj, item.body, .5);
 
         });
 
         this.pinata = this.environment.createBox({size: {x: 2, y: 1, z: 3}, position: { ...chainProps.start, y: chainProps.start.y - (chainProps.jump * (this.links.length)) - (chainProps.jump * 2) }, customMesh: model, mass: 20 });
-        this.environment.physics.createHinge(this.links[this.links.length - 1].body, this.pinata.body, 1);
+        this.environment.physics.constrain(this.links[this.links.length - 1].body, this.pinata.body, 1);
 
         this.pipes = this.links.map((item, index) => {
             const container = new THREE.Object3D();
@@ -60,7 +60,7 @@ export default class PinataController extends CustomMeshController{
     }
     update(){
         if(this.pinata && this.onPinataMoved){
-            this.onPinataMoved({ position: this.pinata.mesh.position, rotation: this.pinata.mesh.rotation });
+            this.onPinataMoved(this.pinata);
         }
         this.pipes.forEach((item, index) => {
             if(item.end && item.end.position){
@@ -90,7 +90,7 @@ export default class PinataController extends CustomMeshController{
         if(this.hits === this.maxHits){
             this.pinata.mesh.children.filter((item, index) => !this.remainingChunkIndexes.includes(index)).map((item, index) => ({index, item})).reverse().forEach(item => {
                 const wp = item.item.getWorldPosition(item.item.position);
-                this.environment.createSphere({size: {r: 2}, position: {x:  wp.x, y: wp.y, z: wp.z}, mass: 1, customMesh: item.item})
+                this.environment.createSphere({size: {r: 1.5}, position: {x:  wp.x, y: wp.y, z: wp.z}, mass: 1, customMesh: item.item})
             });
         }
         

@@ -122,4 +122,31 @@ function basicColorMaterial(color){
 function createEmptyContainer(){
     return new THREE.Object3D();
 }
-export {setRotation, RotationAxis, getRaycastIntersections, object3DSelector, createPrimitive, getCollisions, getDistance, basicImageMaterial, basicColorMaterial, createEmptyContainer}
+function getCanvasPosition(obj, environment)
+{
+    const vector = new THREE.Vector3();
+
+    const width = environment.renderer.getContext().canvas.width;
+    const height = environment.renderer.getContext().canvas.height
+
+    const widthHalf = width * 0.5;
+    const heightHalf = height * 0.5;
+
+    obj.updateMatrixWorld();
+    vector.setFromMatrixPosition(obj.matrixWorld);
+    vector.project(environment.camera);
+
+    vector.x = ( vector.x * widthHalf ) + widthHalf;
+    vector.y = - ( vector.y * heightHalf ) + heightHalf;
+    // console.log(vector);
+    return { 
+        x: vector.x,
+        y: vector.y,
+        percent: {
+            x: (vector.x / width) * 100,
+            y: (vector.y / height) * 100
+        }
+    };
+
+};
+export {setRotation, RotationAxis, getRaycastIntersections, object3DSelector, createPrimitive, getCollisions, getDistance, basicImageMaterial, basicColorMaterial, createEmptyContainer, getCanvasPosition}

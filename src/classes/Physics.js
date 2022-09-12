@@ -123,25 +123,32 @@ class Physics{
         body.applyImpulse(force,worldPoint);
     }
 
-    createHinge(a, b, range = 1){
-        // const s = 3;
-        // const d = 0.1 * s;
-        // const hinge = new CANNON.HingeConstraint(a, b, {
-        //     pivotA: new CANNON.Vec3(0, 0, -s * 0.5 - d),
-        //     axisA: new CANNON.Vec3(1, 0, 0),
-        //     pivotB: new CANNON.Vec3(0, 0, s * 0.5 + d),
-        //     axisB: new CANNON.Vec3(1, 0, 0),
-        // });
+    constrain(a, b, range = 1){
         const localPivotA = new CANNON.Vec3(range , 0, range);
         const localPivotB = new CANNON.Vec3(range * -1, 0, range * -1);
-        const hinge = new CANNON.PointToPointConstraint(a, localPivotA, b, localPivotB);
-        this.world.addConstraint(hinge);
-
+        const constraint = new CANNON.PointToPointConstraint(a, localPivotA, b, localPivotB);
+        this.world.addConstraint(constraint);
+        return constraint;
     }
 
     lock (a, b) {
         const constraint = new CANNON.LockConstraint(a, b);
         this.world.addConstraint(constraint);
+        return constraint;
+    }
+
+    hinge(a, b, options){
+        const constraint = new CANNON.HingeConstraint(a, b, options);
+        this.world.addConstraint(constraint);
+        return constraint;
+        /*
+        {
+            pivotA: new CANNON.Vec3(0, 0, -s * 0.5 - d),
+            axisA: new CANNON.Vec3(1, 0, 0),
+            pivotB: new CANNON.Vec3(0, 0, s * 0.5 + d),
+            axisB: new CANNON.Vec3(1, 0, 0),
+        }
+        */
     }
 }
 

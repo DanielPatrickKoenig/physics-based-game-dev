@@ -22,9 +22,9 @@ export default class GameScene extends BaseScene{
         const block2 = this.environment.createSphere({ size: { r: .5 }, position: { x: 8, y: 3, z: -10 }, material: redMaterial, mass: 1 });
         const block3 = this.environment.createSphere({ size: { r: 1 }, position: { x: 12, y: 3, z: -11 }, material: redMaterial, mass: 2 });
 
-        this.environment.physics.createHinge(topBlock.body, block1.body);
-        this.environment.physics.createHinge(block1.body, block2.body);
-        this.environment.physics.createHinge(block2.body, block3.body);
+        this.environment.physics.constrain(topBlock.body, block1.body);
+        this.environment.physics.constrain(block1.body, block2.body);
+        this.environment.physics.constrain(block2.body, block3.body);
         // const floor = this.environment.createBox({ size: { x: 50, y: 1, z: 50 }, position: { x: 0, y: -4, z: -8 }, material: greenMaterial, mass: 0 });
         // console.log(floor);
     }
