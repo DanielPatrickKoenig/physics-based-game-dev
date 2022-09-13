@@ -14,11 +14,14 @@ export default class CarScene extends BaseScene{
         new GroundController({environment: this.environment}, 'https://danielpatrickkoenig.github.io/spirit-of-kovak/dist/dirt_row.png');
 
         this.environment.cameraContainer.position.y = 3;
-        this.environment.cameraContainer.position.z = 20;
+        this.environment.cameraContainer.position.z = 15;
 
         this.carController = new CarController({environment: this.environment});
-        this.carController.move(5);
-        this.carController.turn(-.5);
+        setTimeout(() => {
+            this.carController.move(5);
+            this.carController.turn(-.5);
+        }, 2000);
+        
 
 
 

@@ -31,9 +31,12 @@ export default class CarController extends BaseController{
             
             return { wheel, hinge, turner: !item.motorized, mover: item.motorized };
         });
+        
+        
         this.turn(this.turnSpeed);
         this.move(this.speed);
-        
+
+       this.addExtras();
     }
     turn(direction) {
         this.turnSpeed = direction;
@@ -43,5 +46,18 @@ export default class CarController extends BaseController{
         this.speed = speed;
         this.wheels.filter(item => item.mover).forEach(item => {item.hinge.setMotorSpeed(this.speed)});
         
+    }
+
+    addExtras(){
+        const wall1 = this.environment.createBox({size: {x: .2, y: .4, z: 2}, position: { x: 1.4, y: 3.5, z: 0 }, material: this.redMat, mass: .2 });
+        this.environment.physics.lock(this.chassis.body, wall1.body);
+        const wall2 = this.environment.createBox({size: {x: .2, y: .4, z: 2}, position: { x: -1.4, y: 3.5, z: 0 }, material: this.redMat, mass: .2 });
+        this.environment.physics.lock(this.chassis.body, wall2.body);
+        const wall3 = this.environment.createBox({size: {x: 1, y: .4, z: .2}, position: { x: 0, y: 3.5, z: -2.4 }, material: this.redMat, mass: .2 });
+        this.environment.physics.lock(this.chassis.body, wall3.body);
+        const wall4 = this.environment.createBox({size: {x: 1, y: .4, z: .2}, position: { x: 0, y: 3.5, z: 2.4 }, material: this.redMat, mass: .2 });
+        this.environment.physics.lock(this.chassis.body, wall4.body);
+
+        const ball = this.environment.createSphere({ size: { r: .4 }, position: { x: 0, y: 3.5, z: 0 }, material: basicColorMaterial('00cc00'), mass: .3 });
     }
 }
