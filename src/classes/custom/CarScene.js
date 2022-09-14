@@ -2,6 +2,7 @@ import BaseScene from '../BaseScene';
 import LightController, { LightTypes } from '../../classes/controllers/LightController';
 import GroundController from '../../classes/controllers/GroundController';
 import CarController from './CarController';
+import { basicColorMaterial } from '../../utils/THREEHelpers';
 export default class CarScene extends BaseScene{
     constructor(el){
         super(el);
@@ -22,6 +23,12 @@ export default class CarScene extends BaseScene{
             this.carController.turn(-.5);
         }, 2000);
         
+
+        [...new Array(500).keys()].forEach(item => {
+            const rockSize = (Math.random() * .4) + .1;
+            const rock = this.environment.createSphere({size:{r: rockSize / 2}, position: { x: (Math.random() * 30) - 15, y: 0, z: (Math.random() * 30) - 15}, material: basicColorMaterial('00cc00'), mass: 0});
+
+        })
 
 
 
