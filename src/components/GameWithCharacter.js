@@ -4,9 +4,10 @@ import { createRef } from 'react';
 import { createScene } from '../engine';
 const GameWithCharacter = () => {
     let gameContainer = createRef();
-    const speed = 1;
-    const turnSpeed = 1;
-    const scene = createScene();
+    const speed = 10;
+    const turnSpeed = .5;
+    const gameIndex = 1;
+    const scene = createScene(null, gameIndex);
     const start = async () => {
         while(!gameContainer.current){
             await new Promise(resolve => setTimeout(resolve), 5);
@@ -15,26 +16,36 @@ const GameWithCharacter = () => {
     }
     start();
     const downPressed = () => {
-        scene.getPlayerControllers().forEach(item => item.move(speed));
+        scene.carController.move(speed);
+        // scene.getPlayerControllers().forEach(item => item.move(speed));
     };
     const downReleased = () => {
-        scene.getPlayerControllers().forEach(item => item.moveStop());
+        scene.carController.move(0);
+        // scene.getPlayerControllers().forEach(item => item.moveStop());
     }
     const upPressed = async () => {
-        scene.getPlayerControllers().forEach(item => item.move(speed * -1));
+        scene.carController.move(speed);
     };
     const upReleased = () => {
-        scene.getPlayerControllers().forEach(item => item.moveStop());
+        scene.carController.move(0);
     }
     const leftPressed = () => {
-        scene.getPlayerControllers().forEach(item => item.directionChange(turnSpeed * -1));
+        scene.carController.turn(turnSpeed * -1);
+        // scene.getPlayerControllers().forEach(item => item.directionChange(turnSpeed * -1));
     };
     const rightPressed = () => {
-        scene.getPlayerControllers().forEach(item => item.directionChange(turnSpeed));
+        scene.carController.turn(turnSpeed);
+        // scene.getPlayerControllers().forEach(item => item.directionChange(turnSpeed));
     };
     const spacePressed = () => {
         scene.getPlayerControllers().forEach(item => item.space());
     };
+    const leftReleased = () => {
+        scene.carController.turn(0);
+    }
+    const rightReleased = () => {
+        scene.carController.turn(0);
+    }
     const pointerStarted = (e) => {
         if(e.mobile){
             scene.getPlayerControllers().forEach(item => item.move(speed * -1));
@@ -69,11 +80,13 @@ const GameWithCharacter = () => {
                 onPressSpace={spacePressed}
                 onReleaseDown={downReleased}
                 onReleaseUp={upReleased}
+                onReleaseLeft={leftReleased}
+                onReleaseRight={rightReleased}
                 onPointerStart={pointerStarted}
                 onPointerChange={pointerChanged}
                 onPointerStop={pointerStopped}
             >
-                <UserInterface scene={scene} />
+                <UserInterface scene={scene} gameIndex={gameIndex} />
             </PlayerControl>
         </div>
     );

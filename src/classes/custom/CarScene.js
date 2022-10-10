@@ -18,10 +18,10 @@ export default class CarScene extends BaseScene{
         this.environment.cameraContainer.position.z = 15;
 
         this.carController = new CarController({environment: this.environment});
-        setTimeout(() => {
-            this.carController.move(5);
-            this.carController.turn(-.5);
-        }, 2000);
+        // setTimeout(() => {
+        //     this.carController.move(5);
+        //     this.carController.turn(-.5);
+        // }, 2000);
         
 
         [...new Array(500).keys()].forEach(item => {
