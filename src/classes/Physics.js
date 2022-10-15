@@ -37,7 +37,8 @@ class Physics{
     }
     addShape({ type, mass, size, position, orientation, mesh }){
         let shape;
-        const sizeVector = type === ShapeTypes.BOX ? new CANNON.Vec3(size.x / 2, size.y / 2, size.z / 2) : this.processVec3({ values: size, property: 'size' });
+        const divider = mass === 0 ? 1 : 2;
+        const sizeVector = type === ShapeTypes.BOX ? new CANNON.Vec3(size.x / divider, size.y / divider, size.z / divider) : this.processVec3({ values: size, property: 'size' });
         switch(type){
             case ShapeTypes.PLANE:{
                 shape = new CANNON.Plane(sizeVector);

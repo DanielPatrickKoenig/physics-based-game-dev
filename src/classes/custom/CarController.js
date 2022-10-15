@@ -18,7 +18,7 @@ export default class CarController extends BaseController{
 
         this.chassis = this.environment.createBox({size: {x: this.vehicleWidth, y: 1, z: this.vehicleLength}, position: {x: 0, y: 2, z: 0}, material: this.redMat, mass: 1});
 
-        this.angleWall = null;
+        // this.angleWall = null;
 
         this.wheels = [
             {id: 'lf', pivot: new CANNON.Vec3(-this.vehicleWidth, -0.5, -this.vehicleLength / 2), axis: new CANNON.Vec3(1, 0, 0)},
@@ -41,6 +41,8 @@ export default class CarController extends BaseController{
         this.move(this.speed);
 
        this.addExtras();
+
+       
     }
     turn(direction) {
         this.turnSpeed = direction;
@@ -62,20 +64,19 @@ export default class CarController extends BaseController{
         const wall4 = this.environment.createBox({size: {x: 1, y: .4, z: .2}, position: { x: 0, y: 3.5, z: 2.4 }, material: this.redMat, mass: .2 });
         this.environment.physics.lock(this.chassis.body, wall4.body);
 
-        const ball = this.environment.createSphere({ size: { r: .4 }, position: { x: 0, y: 3.5, z: 0 }, material: basicColorMaterial('00cc00'), mass: .3 });
+        this.environment.createSphere({ size: { r: .4 }, position: { x: 0, y: 3.5, z: 0 }, material: basicColorMaterial('00cc00'), mass: .3 });
 
         this.angleWall = wall3.mesh;
-
-        // this.chassis.mesh.add(this.environment.camera);
-        // this.environment.camera.position.x = 0;
-        // this.environment.camera.position.y = 2;
-        // this.environment.camera.position.z = 6;
     }
 
     update(){
         
         // const rawAngle = this.chassis.mesh.rotation.y;
-        const rawAngle = jstrig.angle({ x: this.chassis.mesh.position.x, y: this.chassis.mesh.position.z }, { x: this.angleWall.position.x, y: this.angleWall.position.z });
+        // const rawAngle = jstrig.angle({ x: this.chassis.mesh.position.x, y: this.chassis.mesh.position.z }, { x: this.angleWall.position.x, y: this.angleWall.position.z });
+
+        const rawAngle = jstrig.angle({ x: this.wheels[2].wheel.mesh.position.x, y: this.wheels[2].wheel.mesh.position.z }, { x: this.wheels[0].wheel.mesh.position.x, y: this.wheels[0].wheel.mesh.position.z });
+
+        // this.wheels
         // console.log('r', rawAngle);
         // console.log('q', this.chassis.body.quaternion.y);
         this.environment.cameraContainer.position.y = this.chassis.mesh.position.y+2;

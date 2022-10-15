@@ -28,7 +28,13 @@ export default class CarScene extends BaseScene{
             const rockSize = (Math.random() * .4) + .1;
             const rock = this.environment.createSphere({size:{r: rockSize / 2}, position: { x: (Math.random() * 30) - 15, y: 0, z: (Math.random() * 30) - 15}, material: basicColorMaterial('00cc00'), mass: 0});
 
-        })
+        });
+
+        this.environment.createBox({size: {x: 6, y: .25, z: 20}, position: {x: 6, y: 0, z: -20}, mass: 0, material: basicColorMaterial('0000cc')});
+        this.environment.createBox({size: {x: 6, y: .5, z: 16}, position: {x: 6, y: 0, z: -20}, mass: 0, material: basicColorMaterial('0000cc')});
+        this.environment.createBox({size: {x: 6, y: .75, z: 12}, position: {x: 6, y: 0, z: -20}, mass: 0, material: basicColorMaterial('0000cc')});
+        this.environment.createBox({size: {x: 6, y: 1, z: 8}, position: {x: 6, y: 0, z: -20}, mass: 0, material: basicColorMaterial('0000cc')});
+    //    this.environment.createSphere({size: {r: 20}, position: {x: 6, y: -19, z: -20}, mass: 0, material: basicColorMaterial('0000cc')});
 
 
 
