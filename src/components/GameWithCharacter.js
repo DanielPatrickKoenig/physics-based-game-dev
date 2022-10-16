@@ -2,6 +2,7 @@ import PlayerControl from './PlayerControl';
 import UserInterface from './ui/UserInterface';
 import { createRef } from 'react';
 import { createScene } from '../engine';
+import './GameWithCharacter.css';
 const GameWithCharacter = () => {
     let gameContainer = createRef();
     const speed = 10;
@@ -71,7 +72,7 @@ const GameWithCharacter = () => {
     }
     return (
         <div>
-            <div ref={gameContainer} className="game-container"></div>
+            <div ref={gameContainer} className={`game-container ${gameIndex === 1 ? 'car-game-container' : ''}`}></div>
             <PlayerControl 
                 onPressDown={downPressed}
                 onPressUp={upPressed}

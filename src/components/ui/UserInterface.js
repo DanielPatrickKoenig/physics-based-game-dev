@@ -1,4 +1,5 @@
 import { useState } from 'react'; 
+import SteeringWheel from './SteeringWheel';
 import './UserInterface.css';
 const UserInterface = ({scene, gameIndex}) => {
     const [ pMarkerX, setPMarkerX ] = useState(0);
@@ -13,8 +14,16 @@ const UserInterface = ({scene, gameIndex}) => {
         scene.hitPinata();
     }
 
+    const directionChange = d => {
+        scene.carController.turn(d);
+        
+    }
+    const speedChange = s => {
+        scene.carController.move(s * 10);
+    }
+
     scene.setActionHandler(processAction);
-        const pinataButton = <div>
+        const pinataUI = <div>
             <div className="overlayer">
                 <div>
                     <div onClick={markerClicked} style={{left: `${pMarkerX}%`, top: `${pMarkerY}%`}}>
@@ -27,9 +36,16 @@ const UserInterface = ({scene, gameIndex}) => {
             <p>{pMarkerZ}</p>
         </div>;
 
+        const carUI = <div>
+            <SteeringWheel 
+                onDirectionChange={directionChange}
+                onSpeedChange={speedChange}
+            />
+        </div>;
+
         return (
         <div>
-            {gameIndex === 0 ? pinataButton : <div></div>}
+            {gameIndex === 0 ? pinataUI : carUI}
         </div>
     );
 }

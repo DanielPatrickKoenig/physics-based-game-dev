@@ -18,6 +18,16 @@ export default class CarScene extends BaseScene{
         this.environment.cameraContainer.position.z = 15;
 
         this.carController = new CarController({environment: this.environment});
+
+        // this.carController = new CarController({environment: this.environment}, { 
+        //     bodyModel: this.environment.createSphere({size: {r: .5}, position: {x: 0, y: 0, z: 0}, material: basicColorMaterial('0000cc')}).mesh,
+        //     wheelModels: [
+        //         this.environment.createSphere({size: {r: .1}, position: {x: 0, y: 0, z: 0}, material: basicColorMaterial('0000cc')}).mesh,
+        //         this.environment.createSphere({size: {r: .1}, position: {x: 0, y: 0, z: 0}, material: basicColorMaterial('0000cc')}).mesh,
+        //         this.environment.createSphere({size: {r: .1}, position: {x: 0, y: 0, z: 0}, material: basicColorMaterial('0000cc')}).mesh,
+        //         this.environment.createSphere({size: {r: .1}, position: {x: 0, y: 0, z: 0}, material: basicColorMaterial('0000cc')}).mesh
+        //     ]
+        // });
         // setTimeout(() => {
         //     this.carController.move(5);
         //     this.carController.turn(-.5);
@@ -38,5 +48,11 @@ export default class CarScene extends BaseScene{
 
 
 
+    }
+    getWidth(){
+        return 300;
+    }
+    getHeight(){
+        return 600;
     }
 }
