@@ -27,5 +27,7 @@ export default class GameScene extends BaseScene{
         this.environment.physics.constrain(block2.body, block3.body);
         // const floor = this.environment.createBox({ size: { x: 50, y: 1, z: 50 }, position: { x: 0, y: -4, z: -8 }, material: greenMaterial, mass: 0 });
         // console.log(floor);
+
+        
     }
 }

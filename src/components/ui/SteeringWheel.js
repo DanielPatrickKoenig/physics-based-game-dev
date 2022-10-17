@@ -5,7 +5,9 @@ const SteeringWheel = ({onSpeedChange, onDirectionChange}) => {
     const [steeringX, setSetSteeringX] = useState(50);
     const [steeringY, setSetSteeringY] = useState(50);
     const [dragging, setDragging] = useState(false);
+    let easeSignature = 0.0;
     const onDown = () => {
+        easeSignature = Math.random();;
         setDragging(true);
         if(onSpeedChange){
             onSpeedChange(1);
@@ -15,7 +17,10 @@ const SteeringWheel = ({onSpeedChange, onDirectionChange}) => {
     const onMove = e => {
         if(dragging){
             const xPos = e.touches[0].pageX;
-            setSetSteeringX((xPos / window.innerWidth) * 100);
+            let calcPos = (xPos / window.innerWidth) * 100;
+            if(calcPos > 100) calcPos = 100;
+            if(calcPos < 0) calcPos = 0;
+            setSetSteeringX(calcPos);
             if(onDirectionChange){
                 onDirectionChange((steeringX - 50) / 100);
             }
@@ -27,8 +32,10 @@ const SteeringWheel = ({onSpeedChange, onDirectionChange}) => {
             if(onSpeedChange){
                 onSpeedChange(0);
             }
+            // easeWheelToCenter();
         }
     }
+    
     return <div>
         <svg className="steering-wheel">
             <g>

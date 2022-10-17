@@ -2,6 +2,7 @@ import BaseScene from '../BaseScene';
 import LightController, { LightTypes } from '../../classes/controllers/LightController';
 import GroundController from '../../classes/controllers/GroundController';
 import CarController from './CarController';
+import LiftController from '../../classes/controllers/LiftController';
 import { basicColorMaterial } from '../../utils/THREEHelpers';
 export default class CarScene extends BaseScene{
     constructor(el){
@@ -19,7 +20,7 @@ export default class CarScene extends BaseScene{
 
         this.carController = new CarController({environment: this.environment});
 
-        // this.carController = new CarController({environment: this.environment}, { 
+        // this.carController = new CarController({environment: this.environment, 
         //     bodyModel: this.environment.createSphere({size: {r: .5}, position: {x: 0, y: 0, z: 0}, material: basicColorMaterial('0000cc')}).mesh,
         //     wheelModels: [
         //         this.environment.createSphere({size: {r: .1}, position: {x: 0, y: 0, z: 0}, material: basicColorMaterial('0000cc')}).mesh,
@@ -28,11 +29,6 @@ export default class CarScene extends BaseScene{
         //         this.environment.createSphere({size: {r: .1}, position: {x: 0, y: 0, z: 0}, material: basicColorMaterial('0000cc')}).mesh
         //     ]
         // });
-        // setTimeout(() => {
-        //     this.carController.move(5);
-        //     this.carController.turn(-.5);
-        // }, 2000);
-        
 
         [...new Array(500).keys()].forEach(item => {
             const rockSize = (Math.random() * .4) + .1;
@@ -44,8 +40,8 @@ export default class CarScene extends BaseScene{
         this.environment.createBox({size: {x: 6, y: .5, z: 16}, position: {x: 6, y: 0, z: -20}, mass: 0, material: basicColorMaterial('0000cc')});
         this.environment.createBox({size: {x: 6, y: .75, z: 12}, position: {x: 6, y: 0, z: -20}, mass: 0, material: basicColorMaterial('0000cc')});
         this.environment.createBox({size: {x: 6, y: 1, z: 8}, position: {x: 6, y: 0, z: -20}, mass: 0, material: basicColorMaterial('0000cc')});
-    //    this.environment.createSphere({size: {r: 20}, position: {x: 6, y: -19, z: -20}, mass: 0, material: basicColorMaterial('0000cc')});
 
+        new LiftController({environment: this.environment, size: {x: 6, y: .25, z: 8}, position: {x: 0, y: .5, z: -20}, delay: 100});
 
 
     }

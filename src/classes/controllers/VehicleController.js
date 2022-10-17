@@ -12,8 +12,8 @@ export default class CarController extends BaseController{
         this.speed = 0;
         this.turnSpeed = 0;
 
-        this.wheelModels = models && models.wheelModels ? models.wheelModels : [];
-        this.bodyModel = models && models.bodyModel ? models.bodyModel : null;
+        this.wheelModels = data.wheelModels ? data.wheelModels : [];
+        this.bodyModel = data.bodyModel ? data.bodyModel : null;
 
 
         this.redMat = basicColorMaterial('ff0000');
