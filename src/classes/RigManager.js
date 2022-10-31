@@ -13,6 +13,7 @@ export default class RigManager{
     getBoneByName(name){
         return object3DSelector(this.model, {type: 'Bone', name})[0];
     }
+    
     async rotateTo(bone, axis, {value, time}, update){
         let complete = false;
         const targetBone = this.getBoneByName(bone);
