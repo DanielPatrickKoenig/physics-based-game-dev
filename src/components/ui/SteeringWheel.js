@@ -10,20 +10,37 @@ const SteeringWheel = ({onSpeedChange, onDirectionChange}) => {
         easeSignature = Math.random();;
         setDragging(true);
         if(onSpeedChange){
-            onSpeedChange(1);
+            onSpeedChange(((steeringY - 50) / 100) * -2);
         }
         
     }
     const onMove = e => {
         if(dragging){
             const xPos = e.touches[0].pageX;
-            let calcPos = (xPos / window.innerWidth) * 100;
-            if(calcPos > 100) calcPos = 100;
-            if(calcPos < 0) calcPos = 0;
-            setSetSteeringX(calcPos);
+            
+            // console.log('event y', e.touches[0].pageY)
+            let calcPosX = (xPos / window.innerWidth) * 100;
+            if(calcPosX > 100) calcPosX = 100;
+            if(calcPosX < 0) calcPosX = 0;
+            setSetSteeringX(calcPosX);
+
+            const yPos = e.touches[0].pageY;
+            let calcPosY = ((yPos - (window.innerHeight * .75)) / (window.innerHeight * .25)) * 100;
+            console.log('calcPosY', calcPosY);
+            if(calcPosY > 100) calcPosY = 100;
+            if(calcPosY < 0) calcPosY = 0;
+            setSetSteeringY(calcPosY);
             if(onDirectionChange){
                 onDirectionChange((steeringX - 50) / 100);
             }
+
+            if(onSpeedChange){
+                onSpeedChange(((steeringY - 50) / 100) * -2);
+            }
+            
+            // if(onSpeedChange){
+            //     onSpeedChange(1);
+            // }
         }
     }
     const onUp = () => {
@@ -32,6 +49,7 @@ const SteeringWheel = ({onSpeedChange, onDirectionChange}) => {
             if(onSpeedChange){
                 onSpeedChange(0);
             }
+            setSetSteeringY(50);
             // easeWheelToCenter();
         }
     }
